@@ -59,7 +59,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label text="Unknown">
+                              <Label fx:id="mainPathLabel" text="Unknown">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

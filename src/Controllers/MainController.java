@@ -1,25 +1,47 @@
 package Controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.FileChooser;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.File;
+import java.util.function.Function;
+import java.util.prefs.Preferences;
 
 public class MainController {
 
-    @FXML Label pathErrorLabel;
+    @FXML Label pathErrorLabel, mainPathLabel;
     @FXML Button selectMainPathButton;
+    File mainDirectory;
+    Preferences userPreferences = Preferences.userRoot();
 
     public void initialize() {
         Stage thisStage = new Stage();
-        FileChooser fileChooser = new FileChooser();
+        addMainPathLabelTextListener(mainPathLabel);
+        DirectoryChooser directoryChooser = new DirectoryChooser();
         selectMainPathButton.setOnAction(e -> {
-            File selectedFile = fileChooser.showOpenDialog(thisStage);
+            mainDirectory = directoryChooser.showDialog(thisStage);
+            mainPathLabel.setText(mainDirectory.toString());
         });
     }
+    private void addMainPathLabelTextListener(Label label){
+        label.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> ov, String t, String t1) {
+                if (mainPathLabel.getText() != "Unknown") {
+                    pathErrorLabel.setVisible(false);
+                } else {
+                    pathErrorLabel.setVisible(true);
+                    userPreferences.put("mainPathLabel", mainPathLabel.getText());
+                    System.out.println(userPreferences.get("mainPathLabel", "YU"));
+                }
+            }
+        });
+    }
+
 
 }
