@@ -11,22 +11,28 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.function.Function;
 import java.util.prefs.Preferences;
+import Classes.NPCFile;
 
 public class MainController {
 
     @FXML Label pathErrorLabel, mainPathLabel;
     @FXML Button selectMainPathButton;
-    File mainDirectory;
-    Preferences userPreferences = Preferences.userRoot();
+    public File mainDirectory;
+    public Preferences userPreferences;
+    Stage mainStage;
+    NPCFile npcFile;
 
     public void initialize() {
-        Stage thisStage = new Stage();
+        mainStage = new Stage();
         addMainPathLabelTextListener(mainPathLabel);
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        selectMainPathButton.setOnAction(e -> {
-            mainDirectory = directoryChooser.showDialog(thisStage);
-            mainPathLabel.setText(mainDirectory.toString());
-        });
+
+        // Loading user preferences
+        userPreferences = Preferences.userNodeForPackage(this.getClass());
+        mainPathLabel.setText(userPreferences.get("mainPathLabel", ""));
+
+        setMainDirectory();
+        npcFile = new NPCFile(this);
+
     }
     private void addMainPathLabelTextListener(Label label){
         label.textProperty().addListener(new ChangeListener<String>() {
@@ -34,14 +40,19 @@ public class MainController {
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
                 if (mainPathLabel.getText() != "Unknown") {
                     pathErrorLabel.setVisible(false);
+                    userPreferences.put("mainPathLabel", mainPathLabel.getText());
                 } else {
                     pathErrorLabel.setVisible(true);
-                    userPreferences.put("mainPathLabel", mainPathLabel.getText());
-                    System.out.println(userPreferences.get("mainPathLabel", "YU"));
                 }
             }
         });
     }
-
+    private void setMainDirectory() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        selectMainPathButton.setOnAction(e -> {
+            mainDirectory = directoryChooser.showDialog(mainStage);
+            mainPathLabel.setText(mainDirectory.toString());
+        });
+    }
 
 }
