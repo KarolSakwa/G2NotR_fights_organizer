@@ -4,12 +4,15 @@ import Controllers.MainController;
 
 public class NPCFile {
     MainController mainController;
+    public String NPCFolder;
 
     public NPCFile(MainController mainController) {
         this.mainController = mainController;
+        NPCFolder = mainController.mainPath + "\\_Work\\Data\\Scripts\\Content\\Story\\NPC";
+    }
 
-        String NPCFolder = mainController.mainDirectory.toString();
-        System.out.println(NPCFolder);
+    public String getNPCFileContent() {
+
     }
 
 }

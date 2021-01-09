@@ -21,6 +21,7 @@ public class MainController {
     public Preferences userPreferences;
     Stage mainStage;
     NPCFile npcFile;
+    public String mainPath;
 
     public void initialize() {
         mainStage = new Stage();
@@ -28,7 +29,8 @@ public class MainController {
 
         // Loading user preferences
         userPreferences = Preferences.userNodeForPackage(this.getClass());
-        mainPathLabel.setText(userPreferences.get("mainPathLabel", ""));
+        mainPath = userPreferences.get("mainPath", "");
+        mainPathLabel.setText(mainPath);
 
         setMainDirectory();
         npcFile = new NPCFile(this);
@@ -40,7 +42,7 @@ public class MainController {
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
                 if (mainPathLabel.getText() != "Unknown") {
                     pathErrorLabel.setVisible(false);
-                    userPreferences.put("mainPathLabel", mainPathLabel.getText());
+                    userPreferences.put("mainPath", mainPathLabel.getText());
                 } else {
                     pathErrorLabel.setVisible(true);
                 }
