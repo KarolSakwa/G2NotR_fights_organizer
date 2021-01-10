@@ -5,6 +5,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -16,20 +17,24 @@ public class NPCFile {
     public NPCFile(MainController mainController, String NPCName) {
         this.mainController = mainController;
         this.NPCName = NPCName;
-
         NPCFolder = mainController.mainPath + "\\_Work\\Data\\Scripts\\Content\\Story\\NPC";
         getNPCFileContent();
     }
 
     private void getNPCFileContent() {
+        String selectedFile = "";
+        ArrayList NPCFiles = new ArrayList();
         for (Object name: Helper.listFilesForFolder(NPCFolder)) {
-            if (name.toString().contains(NPCName)){
-                System.out.println(name + "\n");
+            if (name.toString().contains(NPCName.toLowerCase())){
+                NPCFiles.add(name.toString());
             }
             else {
-                System.out.println("AHU \n");
+
             }
         }
+        if (NPCFiles.size() > 1)
+
+        System.out.println(NPCFiles);
     }
 
 }
