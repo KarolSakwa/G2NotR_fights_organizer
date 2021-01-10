@@ -33,7 +33,7 @@ public class MainController {
         mainPathLabel.setText(mainPath);
 
         setMainDirectory();
-        npcFile = new NPCFile(this);
+        npcFile = new NPCFile(this, "onar");
 
     }
     private void addMainPathLabelTextListener(Label label){
