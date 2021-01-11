@@ -22,8 +22,7 @@ public class NPCFile {
     }
 
     private void getNPCFileContent() {
-        String selectedFile = "";
-        ArrayList NPCFiles = new ArrayList();
+        List NPCFiles = new ArrayList();
         for (Object name: Helper.listFilesForFolder(NPCFolder)) {
             if (name.toString().contains(NPCName.toLowerCase())){
                 NPCFiles.add(name.toString());
@@ -32,9 +31,10 @@ public class NPCFile {
 
             }
         }
-        if (NPCFiles.size() > 1)
-
-        System.out.println(NPCFiles);
+        if (NPCFiles.size() > 1) {
+            String selectedFile = NPCFiles.get(NPCFiles.indexOf("vlk_4250_jorgen.d")).toString();
+            System.out.println(selectedFile);
+            }
     }
 
 }
