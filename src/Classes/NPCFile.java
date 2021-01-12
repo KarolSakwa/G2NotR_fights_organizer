@@ -1,9 +1,9 @@
 package Classes;
 import Controllers.MainController;
+import sun.misc.IOUtils;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,18 +17,41 @@ public class NPCFile {
     public NPCFile(MainController mainController, String NPCName) {
         this.mainController = mainController;
         this.NPCName = NPCName;
-        NPCFolder = mainController.mainPath + "\\_Work\\Data\\Scripts\\Content\\Story\\NPC";
-        getNPCFileContent();
+        NPCFolder = mainController.mainPath + "\\_Work\\Data\\Scripts\\Content\\Story\\NPC\\";
+        System.out.println(getNPCFileContent());
     }
 
-    private void getNPCFileContent() {
-        for (Object name: Helper.listFilesForFolder(NPCFolder)) {
-            if (name.toString().contains(NPCName.toLowerCase())) {
-                selectCorrectFile(name.toString());
+    private String getNPCFileContent() {
+        String fullPath = NPCFolder + getCorrectFileName();
+        String tempFileContent = "";
+        try(FileReader fileStream = new FileReader(fullPath);
+            BufferedReader bufferedReader = new BufferedReader(fileStream) ) {
+            String line = null;
+            while( (line = bufferedReader.readLine()) != null ) {
+                tempFileContent += line + "\n";
             }
-            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tempFileContent;
     }
+
+    private String getCorrectFileName() {
+        String correctFileName = "";
+        for (Object name : Helper.listFilesForFolder(NPCFolder)) {
+            if (name.toString().contains(NPCName.toLowerCase())) {
+                correctFileName = selectCorrectFile(name.toString());
+                if (correctFileName == "")
+                    correctFileName = name.toString();
+            }
+        }
+        return correctFileName;
+    }
+
     private String selectCorrectFile(String name) {
+        // SOME NPCS HAS MULTIPLE VERSIONS - THIS METHOD HELPS TO SELECT THE CORRECT ONE
         String correctFile = "";
         if (name.contains("jorgen"))
             correctFile = "vlk_4250_jorgen.d";
@@ -39,7 +62,10 @@ public class NPCFile {
         else if (name.contains("lares"))
             correctFile = "vlk_449_lares.d";
         else if (name.contains("jack"))
-            correctFile = "vlk_444_jack.d";
+            if (!name.contains("al"))
+                correctFile = "vlk_444_jack.d";
+            else
+                correctFile = "pir_1352_addon_alligatorjack.d";
         else if (name.contains("pardos"))
             correctFile = "strf_1127_addon_pardos_nw.d";
         else if (name.contains("tonak"))
