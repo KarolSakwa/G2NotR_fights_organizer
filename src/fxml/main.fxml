@@ -5,35 +5,68 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="845.0" prefWidth="1034.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainController">
   <tabs>
-    <Tab text="Fighters">
+    <Tab text="Main">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <VBox layoutX="11.0" layoutY="11.0" prefHeight="350.0" prefWidth="582.0">
+                  <VBox prefHeight="814.0" prefWidth="1034.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="1.0" prefWidth="582.0">
+                        <HBox prefHeight="716.0" prefWidth="1034.0">
                            <children>
-                              <Label fx:id="pathErrorLabel" prefHeight="12.0" prefWidth="244.0" text="First, select your main path in &quot;Advanced&quot; tab!" textFill="RED" />
+                              <VBox prefHeight="816.0" prefWidth="704.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="727.0" text="Fighters">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox alignment="CENTER" prefHeight="1.0" prefWidth="582.0">
+                                       <children>
+                                          <Label fx:id="pathErrorLabel" prefHeight="12.0" prefWidth="244.0" text="First, select your main path in &quot;Advanced&quot; tab!" textFill="RED" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="582.0" spacing="20.0">
+                                       <children>
+                                          <Label text="Fighter 1:" />
+                                          <TextField fx:id="fighter1TextField" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" layoutX="10.0" layoutY="27.0" prefHeight="48.0" prefWidth="582.0" spacing="20.0">
+                                       <children>
+                                          <Label text="Fighter 2:" />
+                                          <TextField fx:id="fighter2TextField" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" layoutX="10.0" layoutY="75.0" prefHeight="48.0" prefWidth="582.0" spacing="20.0">
+                                       <children>
+                                          <Label text="HP multiplier:" />
+                                          <TextField prefHeight="25.0" prefWidth="127.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                              <VBox prefHeight="816.0" prefWidth="338.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="727.0" text="Fans">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="48.0" prefWidth="582.0" spacing="20.0">
+                        <Separator prefWidth="200.0" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1023.0">
                            <children>
-                              <Label text="Fighter 1:" />
-                              <TextField />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="27.0" prefHeight="48.0" prefWidth="582.0" spacing="20.0">
-                           <children>
-                              <Label text="Fighter 2:" />
-                              <TextField />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="75.0" prefHeight="48.0" prefWidth="582.0" spacing="20.0">
-                           <children>
-                              <Label text="HP multiplier:" />
-                              <TextField prefHeight="25.0" prefWidth="127.0" />
+                              <Button alignment="CENTER" mnemonicParsing="false" prefHeight="65.0" prefWidth="103.0" text="Submit">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
                            </children>
                         </HBox>
                      </children>
@@ -41,16 +74,11 @@
                </children></AnchorPane>
       </content>
     </Tab>
-      <Tab text="Fans">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-        </content>
-      </Tab>
     <Tab text="Advanced">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <VBox layoutX="15.0" layoutY="11.0" prefHeight="359.0" prefWidth="574.0">
+                  <VBox layoutX="15.0" layoutY="11.0" prefHeight="791.0" prefWidth="1004.0">
                      <children>
                         <HBox alignment="CENTER" prefHeight="51.0" prefWidth="574.0" spacing="10.0">
                            <children>

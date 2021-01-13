@@ -13,15 +13,17 @@ public class NPCFile {
     MainController mainController;
     String NPCName;
     public String NPCFolder;
+    String fileContent;
 
     public NPCFile(MainController mainController, String NPCName) {
         this.mainController = mainController;
         this.NPCName = NPCName;
+
         NPCFolder = mainController.mainPath + "\\_Work\\Data\\Scripts\\Content\\Story\\NPC\\";
-        System.out.println(getNPCFileContent());
+
     }
 
-    private String getNPCFileContent() {
+    public String getNPCFileContent() {
         String fullPath = NPCFolder + getCorrectFileName();
         String tempFileContent = "";
         try(FileReader fileStream = new FileReader(fullPath);

@@ -1,10 +1,15 @@
 package Classes;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Label;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 public class Helper {
 
@@ -23,6 +28,20 @@ public class Helper {
             }
         }
         return allFiles;
+    }
+
+    public static void addMainPathLabelTextListener(Label label, Label errorLabel, Preferences preferences){
+        label.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> ov, String t, String t1) {
+                if (label.getText() != "Unknown") {
+                    errorLabel.setVisible(false);
+                    preferences.put("mainPath", label.getText());
+                } else {
+                    errorLabel.setVisible(true);
+                }
+            }
+        });
     }
 
 }
