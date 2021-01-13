@@ -1,5 +1,6 @@
 package Classes;
 
+import Controllers.MainController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
@@ -30,15 +31,21 @@ public class Helper {
         return allFiles;
     }
 
-    public static void addMainPathLabelTextListener(Label label, Label errorLabel, Preferences preferences){
+    public static void addMainPathLabelTextListener(Label label, Label errorLabel, Preferences preferences, MainController mainController){
         label.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
-                if (label.getText() != "Unknown") {
+                if (label.getText() == "Unknown") {
+                    errorLabel.setVisible(true);
+                } else if (!listFilesForFolder(mainController.mainPath).contains("_Work")){
+                    System.out.println(listFilesForFolder(mainController.mainPath));
+                    errorLabel.setText("Your main path does not contain correct path to G2 NotR!");
+                    errorLabel.setVisible(true);
+                    preferences.put("mainPath", label.getText());
+                }
+                else {
                     errorLabel.setVisible(false);
                     preferences.put("mainPath", label.getText());
-                } else {
-                    errorLabel.setVisible(true);
                 }
             }
         });

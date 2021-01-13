@@ -62,7 +62,7 @@
                         <Separator prefWidth="200.0" />
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1023.0">
                            <children>
-                              <Button alignment="CENTER" mnemonicParsing="false" prefHeight="65.0" prefWidth="103.0" text="Submit">
+                              <Button fx:id="submitButton" alignment="CENTER" mnemonicParsing="false" prefHeight="65.0" prefWidth="103.0" text="Submit">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

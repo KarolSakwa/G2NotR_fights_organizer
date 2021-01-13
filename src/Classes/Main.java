@@ -9,7 +9,7 @@ public class Main extends Application {
     Window window = new Window();
     @Override
     public void start(Stage primaryStage) throws Exception{
-        window.createWindow("../fxml/main.fxml", false, primaryStage, false, 520, 400);
+        window.createWindow("../fxml/main.fxml", false, primaryStage, false, 1000, 1000);
         //MainController mainController = new MainController();
     }
 
