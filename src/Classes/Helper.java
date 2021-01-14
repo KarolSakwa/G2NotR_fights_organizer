@@ -31,24 +31,34 @@ public class Helper {
         return allFiles;
     }
 
-    public static void addMainPathLabelTextListener(Label label, Label errorLabel, Preferences preferences, MainController mainController){
-        label.textProperty().addListener(new ChangeListener<String>() {
+    public static void addMainPathLabelTextListener(Label mainPathLabel, Label errorLabel, Preferences preferences, MainController mainController){
+        mainPathLabel.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
-                if (label.getText() == "Unknown") {
-                    errorLabel.setVisible(true);
-                } else if (!listFilesForFolder(mainController.mainPath).contains("_Work")){
-                    System.out.println(listFilesForFolder(mainController.mainPath));
-                    errorLabel.setText("Your main path does not contain correct path to G2 NotR!");
-                    errorLabel.setVisible(true);
-                    preferences.put("mainPath", label.getText());
-                }
-                else {
-                    errorLabel.setVisible(false);
-                    preferences.put("mainPath", label.getText());
-                }
+                checkMainPath(mainPathLabel, errorLabel, preferences, mainController);
             }
         });
+    }
+
+    public static void checkMainPath(Label mainPathLabel, Label errorLabel, Preferences preferences, MainController mainController) {
+        File mainPathFolder = Paths.get(mainPathLabel.getText()).toFile();
+        Boolean containsWorkFolder = false;
+        for (File file: mainPathFolder.listFiles()) {
+            if (file.toString().contains("_Work"))
+                containsWorkFolder = true;
+        }
+
+        if (mainPathLabel.getText() == "Unknown") {
+            errorLabel.setVisible(true);
+        } else if (!containsWorkFolder){
+            errorLabel.setText("Your main path does not contain correct path to G2 NotR!");
+            errorLabel.setVisible(true);
+            preferences.put("mainPath", mainPathLabel.getText());
+        }
+        else {
+            errorLabel.setVisible(false);
+            preferences.put("mainPath", mainPathLabel.getText());
+        }
     }
 
 }

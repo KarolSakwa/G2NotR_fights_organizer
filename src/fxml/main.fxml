@@ -24,7 +24,7 @@
                                     </Label>
                                     <HBox alignment="CENTER" prefHeight="1.0" prefWidth="582.0">
                                        <children>
-                                          <Label fx:id="pathErrorLabel" prefHeight="12.0" prefWidth="244.0" text="First, select your main path in &quot;Advanced&quot; tab!" textFill="RED" />
+                                          <Label fx:id="pathErrorLabel" alignment="CENTER" prefHeight="17.0" prefWidth="704.0" text="First, select your main path in &quot;Advanced&quot; tab!" textFill="RED" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="48.0" prefWidth="582.0" spacing="20.0">

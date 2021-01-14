@@ -31,6 +31,7 @@ public class MainController {
         userPreferences = Preferences.userNodeForPackage(this.getClass());
         mainPath = userPreferences.get("mainPath", "");
         mainPathLabel.setText(mainPath);
+        Helper.checkMainPath(mainPathLabel, pathErrorLabel, userPreferences, this);
         Helper.addMainPathLabelTextListener(mainPathLabel, pathErrorLabel, userPreferences, this);
 
         // Loading user preferences
