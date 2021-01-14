@@ -56,7 +56,13 @@ public class MainController {
     private void replaceFileContent(NPCFile npcFile, TextField textField, String role, Integer ID) {
         npcFile = new NPCFile(this, textField.getText());
         String fileContent = npcFile.getNPCFileContent();
-        System.out.println(fileContent);
+        Boolean hasFightRoutine = fileContent.toLowerCase().contains("func void rtn_fight_");
+
+        Integer fightRoutinePartStartIndex = fileContent.toLowerCase().indexOf("func void rtn_fight_");
+        String fightRoutinePartStart = fileContent.substring(fightRoutinePartStartIndex, fileContent.length());
+        Integer fightRoutinePartIndexEnd = fightRoutinePartStart.toLowerCase().indexOf("};");
+        String fightRoutinePart = fightRoutinePartStart.substring(0, fightRoutinePartIndexEnd);
+        System.out.println(fightRoutinePart);
     }
 
 }
