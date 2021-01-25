@@ -9,6 +9,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.prefs.Preferences;
 import Classes.NPCFile;
 
@@ -38,8 +39,16 @@ public class MainController {
 
 
         submitButton.setOnAction(e -> {
-            replaceFileContent(fighter1File, fighter1TextField, "", 0);
-            replaceFileContent(fighter2File, fighter2TextField, "", 0);
+            try {
+                replaceFileContent(fighter1File, fighter1TextField, "", 0);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            try {
+                replaceFileContent(fighter2File, fighter2TextField, "", 0);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         });
 
         setMainDirectory();
@@ -53,11 +62,14 @@ public class MainController {
         });
     }
 
-    private void replaceFileContent(NPCFile npcFile, TextField textField, String role, Integer ID) {
-        String fighterNum = textField == fighter1TextField ? "1" : "2";
+    private void replaceFileContent(NPCFile npcFile, TextField textField, String role, Integer ID) throws IOException {
+        String fighterNum = textField == fighter1TextField ? "F1" : "F2";
         npcFile = new NPCFile(this, textField.getText());
         String fileContent = npcFile.getNPCFileContent();
+        String fightRoutine = Helper.generateFightRoutine(fileContent);
         Boolean hasFightRoutine = fileContent.toLowerCase().contains("func void rtn_fight_");
+
+        // detecting proper routine waypoint part of the file
 
         Integer fightRoutinePartStartIndex = fileContent.toLowerCase().indexOf("func void rtn_fight_");
         String fightRoutinePartStart = fileContent.substring(fightRoutinePartStartIndex, fileContent.length());
@@ -67,7 +79,16 @@ public class MainController {
         String fighterWPPartStart = fightRoutinePart.substring(fighterWPPartIndexStart, fightRoutinePart.length());
         Integer fighterWPPartIndexEnd = fighterWPPartStart.indexOf("\");");
         String fighterWPPart = fighterWPPartStart.substring(0, fighterWPPartIndexEnd);
-        System.out.println(fighterWPPart);
+/*
+        if (hasFightRoutine)
+            npcFile.setNPCFileContent(fileContent.replace(fighterWPPart, "fighterNum"));
+        else {
+            npcFile.setNPCFileContent(fileContent.replace(fighterWPPart, "fighterNum"));
+        }
+
+
+ */
+        System.out.println(fightRoutine);
     }
 
 }

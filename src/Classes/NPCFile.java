@@ -40,6 +40,19 @@ public class NPCFile {
         return tempFileContent;
     }
 
+    public void setNPCFileContent(String newContent) {
+        try {
+            String fullPath = NPCFolder + getCorrectFileName();
+            File npcFile = new File(fullPath);
+            FileWriter npcFileWriter = new FileWriter(npcFile, false);
+            npcFileWriter.write(newContent);
+            npcFileWriter.close();
+        }
+        catch(IOException ioException){
+            ioException.printStackTrace();
+    }
+    }
+
     private String getCorrectFileName() {
         String correctFileName = "";
         for (Object name : Helper.listFilesForFolder(NPCFolder)) {
