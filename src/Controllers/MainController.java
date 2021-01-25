@@ -54,6 +54,7 @@ public class MainController {
     }
 
     private void replaceFileContent(NPCFile npcFile, TextField textField, String role, Integer ID) {
+        String fighterNum = textField == fighter1TextField ? "1" : "2";
         npcFile = new NPCFile(this, textField.getText());
         String fileContent = npcFile.getNPCFileContent();
         Boolean hasFightRoutine = fileContent.toLowerCase().contains("func void rtn_fight_");
@@ -62,7 +63,11 @@ public class MainController {
         String fightRoutinePartStart = fileContent.substring(fightRoutinePartStartIndex, fileContent.length());
         Integer fightRoutinePartIndexEnd = fightRoutinePartStart.toLowerCase().indexOf("};");
         String fightRoutinePart = fightRoutinePartStart.substring(0, fightRoutinePartIndexEnd);
-        System.out.println(fightRoutinePart);
+        Integer fighterWPPartIndexStart = fightRoutinePart.indexOf(",\"") + 2; // +2, because I want to get an index of the first character inside double quotes
+        String fighterWPPartStart = fightRoutinePart.substring(fighterWPPartIndexStart, fightRoutinePart.length());
+        Integer fighterWPPartIndexEnd = fighterWPPartStart.indexOf("\");");
+        String fighterWPPart = fighterWPPartStart.substring(0, fighterWPPartIndexEnd);
+        System.out.println(fighterWPPart);
     }
 
 }
