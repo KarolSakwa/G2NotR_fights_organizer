@@ -41,10 +41,6 @@ public class MainController {
         submitButton.setOnAction(e -> {
             try {
                 replaceFileContent(fighter1File, fighter1TextField, "", 0);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-            try {
                 replaceFileContent(fighter2File, fighter2TextField, "", 0);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
@@ -66,29 +62,24 @@ public class MainController {
         String fighterNum = textField == fighter1TextField ? "F1" : "F2";
         npcFile = new NPCFile(this, textField.getText());
         String fileContent = npcFile.getNPCFileContent();
-        String fightRoutine = Helper.generateFightRoutine(fileContent);
+        String fightRoutine = Helper.generateFightRoutine(fileContent, fighterNum);
         Boolean hasFightRoutine = fileContent.toLowerCase().contains("func void rtn_fight_");
 
         // detecting proper routine waypoint part of the file
+        if (hasFightRoutine) {
+            Integer fightRoutinePartStartIndex = fileContent.toLowerCase().indexOf("func void rtn_fight_");
+            String fightRoutinePartStart = fileContent.substring(fightRoutinePartStartIndex, fileContent.length());
+            Integer fightRoutinePartIndexEnd = fightRoutinePartStart.toLowerCase().indexOf("};");
+            String fightRoutinePart = fightRoutinePartStart.substring(0, fightRoutinePartIndexEnd);
+            Integer fighterWPPartIndexStart = fightRoutinePart.indexOf(",\"") + 2; // +2, because I want to get an index of the first character inside double quotes
+            String fighterWPPartStart = fightRoutinePart.substring(fighterWPPartIndexStart, fightRoutinePart.length());
+            Integer fighterWPPartIndexEnd = fighterWPPartStart.indexOf("\");");
+            String fighterWPPart = fighterWPPartStart.substring(0, fighterWPPartIndexEnd);
 
-        Integer fightRoutinePartStartIndex = fileContent.toLowerCase().indexOf("func void rtn_fight_");
-        String fightRoutinePartStart = fileContent.substring(fightRoutinePartStartIndex, fileContent.length());
-        Integer fightRoutinePartIndexEnd = fightRoutinePartStart.toLowerCase().indexOf("};");
-        String fightRoutinePart = fightRoutinePartStart.substring(0, fightRoutinePartIndexEnd);
-        Integer fighterWPPartIndexStart = fightRoutinePart.indexOf(",\"") + 2; // +2, because I want to get an index of the first character inside double quotes
-        String fighterWPPartStart = fightRoutinePart.substring(fighterWPPartIndexStart, fightRoutinePart.length());
-        Integer fighterWPPartIndexEnd = fighterWPPartStart.indexOf("\");");
-        String fighterWPPart = fighterWPPartStart.substring(0, fighterWPPartIndexEnd);
-/*
-        if (hasFightRoutine)
-            npcFile.setNPCFileContent(fileContent.replace(fighterWPPart, "fighterNum"));
-        else {
-            npcFile.setNPCFileContent(fileContent.replace(fighterWPPart, "fighterNum"));
+            npcFile.setNPCFileContent(fileContent.replace(fighterWPPart, "fighterNum"), false); //
         }
-
-
- */
-        System.out.println(fightRoutine);
+        else {
+            npcFile.setNPCFileContent(Helper.generateFightRoutine(fileContent, fighterNum), true);
+        }
     }
-
 }

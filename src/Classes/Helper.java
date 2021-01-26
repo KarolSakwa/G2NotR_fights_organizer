@@ -61,15 +61,15 @@ public class Helper {
         }
     }
 
-    public static String generateFightRoutine(String fileContent) {
+    public static String generateFightRoutine(String fileContent, String fighterNum) {
         Integer npcIDPartStartIndex = fileContent.toLowerCase().indexOf("id = ") + 5; //+5, because I want to get an index of the first character after what I have in double quotes
         String npcIDPartStart = fileContent.substring(npcIDPartStartIndex, fileContent.length());
         Integer npcIDPartEndIndex = npcIDPartStart.indexOf(";");
         String npcIDPart = npcIDPartStart.substring(0, npcIDPartEndIndex);
         String fightRoutine = "\nfunc void rtn_fight_" + npcIDPart + "()\n" +
                 "{\n" +
-                "\tta_stand_wp(8,0,0,10,\"F1\");\n" +
-                "\tta_stand_wp(0,10,8,0,\"F1\");\n" +
+                "\tta_stand_wp(8,0,0,10,\"" + fighterNum + "\");\n" +
+                "\tta_stand_wp(0,10,8,0,\"" + fighterNum + "\");\n" +
                 "};";
         return fightRoutine;
     }

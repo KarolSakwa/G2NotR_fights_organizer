@@ -40,17 +40,18 @@ public class NPCFile {
         return tempFileContent;
     }
 
-    public void setNPCFileContent(String newContent) {
-        try {
-            String fullPath = NPCFolder + getCorrectFileName();
-            File npcFile = new File(fullPath);
-            FileWriter npcFileWriter = new FileWriter(npcFile, false);
+    public void setNPCFileContent(String newContent, Boolean append)  throws FileNotFoundException {
+        String fullPath = NPCFolder + getCorrectFileName();
+        File npcFile = new File(fullPath);
+        try (FileWriter npcFileWriter = new FileWriter(npcFile, append)){
             npcFileWriter.write(newContent);
-            npcFileWriter.close();
         }
-        catch(IOException ioException){
-            ioException.printStackTrace();
-    }
+        catch (FileNotFoundException e) {
+            throw e;
+        }
+        catch (IOException e) {
+            System.err.print("Something went wrong");
+        }
     }
 
     private String getCorrectFileName() {
