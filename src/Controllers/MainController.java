@@ -59,27 +59,23 @@ public class MainController {
     }
 
     private void replaceFileContent(NPCFile npcFile, TextField textField, String role, Integer ID) throws IOException {
+        // replacing or creating routines in npc files
         String fighterNum = textField == fighter1TextField ? "F1" : "F2";
         npcFile = new NPCFile(this, textField.getText());
         String fileContent = npcFile.getNPCFileContent();
         String fightRoutine = Helper.generateFightRoutine(fileContent, fighterNum);
         Boolean hasFightRoutine = fileContent.toLowerCase().contains("func void rtn_fight_");
-
-        // detecting proper routine waypoint part of the file
+        /*
         if (hasFightRoutine) {
-            Integer fightRoutinePartStartIndex = fileContent.toLowerCase().indexOf("func void rtn_fight_");
-            String fightRoutinePartStart = fileContent.substring(fightRoutinePartStartIndex, fileContent.length());
-            Integer fightRoutinePartIndexEnd = fightRoutinePartStart.toLowerCase().indexOf("};");
-            String fightRoutinePart = fightRoutinePartStart.substring(0, fightRoutinePartIndexEnd);
-            Integer fighterWPPartIndexStart = fightRoutinePart.indexOf(",\"") + 2; // +2, because I want to get an index of the first character inside double quotes
-            String fighterWPPartStart = fightRoutinePart.substring(fighterWPPartIndexStart, fightRoutinePart.length());
-            Integer fighterWPPartIndexEnd = fighterWPPartStart.indexOf("\");");
-            String fighterWPPart = fighterWPPartStart.substring(0, fighterWPPartIndexEnd);
-
-            npcFile.setNPCFileContent(fileContent.replace(fighterWPPart, "fighterNum"), false); //
+            String fighterWPPart = Helper.getFighterWPPart(fileContent);
+            npcFile.setNPCFileContent(fileContent.replace(fighterWPPart, fighterNum), false); //
         }
         else {
             npcFile.setNPCFileContent(Helper.generateFightRoutine(fileContent, fighterNum), true);
         }
+
+         */
+        String fightFileContent = Helper.getFightFileContent(this);
+        System.out.println(fightFileContent);
     }
 }

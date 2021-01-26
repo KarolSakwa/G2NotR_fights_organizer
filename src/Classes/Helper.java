@@ -5,7 +5,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 
-import java.io.File;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -61,6 +61,19 @@ public class Helper {
         }
     }
 
+    public static String getFighterWPPart(String fileContent) {
+        Integer fightRoutinePartStartIndex = fileContent.toLowerCase().indexOf("func void rtn_fight_");
+        String fightRoutinePartStart = fileContent.substring(fightRoutinePartStartIndex, fileContent.length());
+        Integer fightRoutinePartIndexEnd = fightRoutinePartStart.toLowerCase().indexOf("};");
+        String fightRoutinePart = fightRoutinePartStart.substring(0, fightRoutinePartIndexEnd);
+        Integer fighterWPPartIndexStart = fightRoutinePart.indexOf(",\"") + 2; // +2, because I want to get an index of the first character inside double quotes
+        String fighterWPPartStart = fightRoutinePart.substring(fighterWPPartIndexStart, fightRoutinePart.length());
+        Integer fighterWPPartIndexEnd = fighterWPPartStart.indexOf("\");");
+        String fighterWPPart = fighterWPPartStart.substring(0, fighterWPPartIndexEnd);
+
+        return fighterWPPart;
+    }
+
     public static String generateFightRoutine(String fileContent, String fighterNum) {
         Integer npcIDPartStartIndex = fileContent.toLowerCase().indexOf("id = ") + 5; //+5, because I want to get an index of the first character after what I have in double quotes
         String npcIDPartStart = fileContent.substring(npcIDPartStartIndex, fileContent.length());
@@ -72,6 +85,40 @@ public class Helper {
                 "\tta_stand_wp(0,10,8,0,\"" + fighterNum + "\");\n" +
                 "};";
         return fightRoutine;
+    }
+
+    public static String getFightFileContent(MainController mainController) {
+        String tempFileContent = "";
+        try(FileReader fileStream = new FileReader(mainController.mainPath + "\\_Work\\Data\\Scripts\\Content\\Story\\B_Content\\B_Addon_PiratesGoHome.d");
+            BufferedReader bufferedReader = new BufferedReader(fileStream) ) {
+            String line = null;
+            while( (line = bufferedReader.readLine()) != null ) {
+                tempFileContent += line + "\n";
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tempFileContent;
+    }
+/*
+    public static void replaceFighter(MainController mainController, String fighterNum) {
+        String fightFileContent = getFightFileContent(mainController);
+
+
+        return fightRoutine;
+
+    }
+
+
+ */
+    public static void replaceFilePart(String fileContent, String replaceFrom, String replaceTo, String finishingChar) {
+        Integer replacingPartIndexStart = fileContent.toLowerCase().indexOf(replaceFrom) + replaceFrom.length(); // + length, because I want to get index of first character after replaceFrom
+        String replacingPartStart = fileContent.substring(replacingPartIndexStart, fileContent.length());
+        Integer replacingPartIndexEnd = replacingPartStart.indexOf(finishingChar);
+        String replacingPart = replacingPartStart.substring(0, replacingPartIndexEnd);
+        replacingPart.replace(replacingPart, replaceTo);
     }
 
 }
