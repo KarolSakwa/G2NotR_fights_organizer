@@ -89,25 +89,23 @@ public class Helper {
         return tempFileContent;
     }
 
-    /*
-        public static void replaceFighter(MainController mainController, String fighterNum) {
-            String fightFileContent = getFightFileContent(mainController);
-
-
-            return fightRoutine;
-
-        }
-
-
-     */
     public static String getReplacedFilePart(String fileContent, String replaceStartingFrom, String finishingChar) {
         Integer replacingPartIndexStart = fileContent.toLowerCase().indexOf(replaceStartingFrom) + replaceStartingFrom.length(); // + length, because I want to get index of first character after replaceFrom
         String replacingPartStart = fileContent.substring(replacingPartIndexStart, fileContent.length());
         Integer replacingPartIndexEnd = replacingPartStart.toLowerCase().indexOf(finishingChar);
         String replacingPart = replacingPartStart.substring(0, replacingPartIndexEnd);
+
         return replacingPart;
     }
 
+    public static void replaceFilePart(String fileContent, String replaceStartingFrom, String replaceTo, String finishingChar) {
+        Integer replacingPartIndexStart = fileContent.toLowerCase().indexOf(replaceStartingFrom) + replaceStartingFrom.length(); // + length, because I want to get index of first character after replaceFrom
+        String replacingPartStart = fileContent.substring(replacingPartIndexStart, fileContent.length());
+        Integer replacingPartIndexEnd = replacingPartStart.toLowerCase().indexOf(finishingChar);
+        String replacingPart = replacingPartStart.substring(0, replacingPartIndexEnd);
+        fileContent.replace(replacingPart, replaceTo);
+
+    }
 
     public static String getFighterWPPart(String fileContent) {
         // searching for proper routine
@@ -117,5 +115,11 @@ public class Helper {
 
         return WPPart;
     }
+
+        public static void replaceFighter(MainController mainController, String fighterNum) {
+            String fightFileContent = getFightFileContent(mainController);
+            replaceFilePart(fightFileContent, "F1 = Hlp_GetNpc(", "AHU", ");");
+
+        }
 
 }

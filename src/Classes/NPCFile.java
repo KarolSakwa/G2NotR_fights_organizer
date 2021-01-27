@@ -66,6 +66,18 @@ public class NPCFile {
         return correctFileName;
     }
 
+    public String getNPCName() {
+        return Helper.getReplacedFilePart(getNPCFileContent(), "name[0] = \"", "\";");
+    }
+
+    public String getNPCID() {
+        return Helper.getReplacedFilePart(getNPCFileContent(), "id = ", ";");
+    }
+
+    public String getNPCInstance() {
+        return Helper.getReplacedFilePart(getNPCFileContent(), "instance ", "(NPC_DEFAULT)");
+    }
+
     private String selectCorrectFile(String name) {
         // SOME NPCS HAS MULTIPLE VERSIONS - THIS METHOD HELPS TO SELECT THE CORRECT ONE
         String correctFile = "";
@@ -126,6 +138,25 @@ public class NPCFile {
             correctFile = "djg_713_biff.d";
         else if (name.contains("angar"))
             correctFile = "djg_705_angar.d";
+        else if (name.contains("grom"))
+            if (!name.contains("en"))
+                correctFile = "bau_981_grom.d";
+            else
+                correctFile = "vlk_4131_engrom.d";
+        else if (name.contains("tom"))
+            correctFile = "bdt_1080_addon_tom.d";
+        else if (name.contains("dar"))
+            correctFile = "sld_810_dar.d";
+        else if (name.contains("matt"))
+            if (!name.contains("eo"))
+                correctFile = "pir_1365_addon_matt.d";
+            else
+                correctFile = "vlk_416_matteo.d";
+        else if (name.contains("carl"))
+            if (!name.contains("os"))
+                correctFile = "vlk_461_carl.d";
+            else
+                correctFile = "bdt_1079_addon_carlos.d";
         return correctFile;
     }
 
