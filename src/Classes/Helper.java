@@ -14,7 +14,7 @@ import java.util.prefs.Preferences;
 
 public class Helper {
 
-    public static String[] doubledNPC = new String[] {"jorgen", "talbin", "thorus", "lares", "jack", "padros", "tonak", "telbor", "monty",
+    public static String[] doubledNPC = new String[]{"jorgen", "talbin", "thorus", "lares", "jack", "padros", "tonak", "telbor", "monty",
             "patrick", "wolf", "bennet", "rod", "cipher", "sylvio", "bullco", "torlof", "lee", "skip", "greg", "thief", "fighter", "mage", "psionic", "pedro", "mario", "biff", "angar"};
 
     public static List listFilesForFolder(String path) {
@@ -31,7 +31,7 @@ public class Helper {
         return allFiles;
     }
 
-    public static void addMainPathLabelTextListener(Label mainPathLabel, Label errorLabel, Preferences preferences, MainController mainController){
+    public static void addMainPathLabelTextListener(Label mainPathLabel, Label errorLabel, Preferences preferences, MainController mainController) {
         mainPathLabel.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
@@ -43,35 +43,21 @@ public class Helper {
     public static void checkMainPath(Label mainPathLabel, Label errorLabel, Preferences preferences, MainController mainController) {
         File mainPathFolder = Paths.get(mainPathLabel.getText()).toFile();
         Boolean containsWorkFolder = false;
-        for (File file: mainPathFolder.listFiles()) {
+        for (File file : mainPathFolder.listFiles()) {
             if (file.toString().contains("_Work"))
                 containsWorkFolder = true;
         }
 
         if (mainPathLabel.getText() == "Unknown") {
             errorLabel.setVisible(true);
-        } else if (!containsWorkFolder){
+        } else if (!containsWorkFolder) {
             errorLabel.setText("Your main path does not contain correct path to G2 NotR!");
             errorLabel.setVisible(true);
             preferences.put("mainPath", mainPathLabel.getText());
-        }
-        else {
+        } else {
             errorLabel.setVisible(false);
             preferences.put("mainPath", mainPathLabel.getText());
         }
-    }
-
-    public static String getFighterWPPart(String fileContent) {
-        Integer fightRoutinePartStartIndex = fileContent.toLowerCase().indexOf("func void rtn_fight_");
-        String fightRoutinePartStart = fileContent.substring(fightRoutinePartStartIndex, fileContent.length());
-        Integer fightRoutinePartIndexEnd = fightRoutinePartStart.toLowerCase().indexOf("};");
-        String fightRoutinePart = fightRoutinePartStart.substring(0, fightRoutinePartIndexEnd);
-        Integer fighterWPPartIndexStart = fightRoutinePart.indexOf(",\"") + 2; // +2, because I want to get an index of the first character inside double quotes
-        String fighterWPPartStart = fightRoutinePart.substring(fighterWPPartIndexStart, fightRoutinePart.length());
-        Integer fighterWPPartIndexEnd = fighterWPPartStart.indexOf("\");");
-        String fighterWPPart = fighterWPPartStart.substring(0, fighterWPPartIndexEnd);
-
-        return fighterWPPart;
     }
 
     public static String generateFightRoutine(String fileContent, String fighterNum) {
@@ -89,10 +75,10 @@ public class Helper {
 
     public static String getFightFileContent(MainController mainController) {
         String tempFileContent = "";
-        try(FileReader fileStream = new FileReader(mainController.mainPath + "\\_Work\\Data\\Scripts\\Content\\Story\\B_Content\\B_Addon_PiratesGoHome.d");
-            BufferedReader bufferedReader = new BufferedReader(fileStream) ) {
+        try (FileReader fileStream = new FileReader(mainController.mainPath + "\\_Work\\Data\\Scripts\\Content\\Story\\B_Content\\B_Addon_PiratesGoHome.d");
+             BufferedReader bufferedReader = new BufferedReader(fileStream)) {
             String line = null;
-            while( (line = bufferedReader.readLine()) != null ) {
+            while ((line = bufferedReader.readLine()) != null) {
                 tempFileContent += line + "\n";
             }
         } catch (FileNotFoundException e) {
@@ -102,23 +88,34 @@ public class Helper {
         }
         return tempFileContent;
     }
-/*
-    public static void replaceFighter(MainController mainController, String fighterNum) {
-        String fightFileContent = getFightFileContent(mainController);
+
+    /*
+        public static void replaceFighter(MainController mainController, String fighterNum) {
+            String fightFileContent = getFightFileContent(mainController);
 
 
-        return fightRoutine;
+            return fightRoutine;
 
+        }
+
+
+     */
+    public static String getReplacedFilePart(String fileContent, String replaceStartingFrom, String finishingChar) {
+        Integer replacingPartIndexStart = fileContent.toLowerCase().indexOf(replaceStartingFrom) + replaceStartingFrom.length(); // + length, because I want to get index of first character after replaceFrom
+        String replacingPartStart = fileContent.substring(replacingPartIndexStart, fileContent.length());
+        Integer replacingPartIndexEnd = replacingPartStart.toLowerCase().indexOf(finishingChar);
+        String replacingPart = replacingPartStart.substring(0, replacingPartIndexEnd);
+        return replacingPart;
     }
 
 
- */
-    public static void replaceFilePart(String fileContent, String replaceFrom, String replaceTo, String finishingChar) {
-        Integer replacingPartIndexStart = fileContent.toLowerCase().indexOf(replaceFrom) + replaceFrom.length(); // + length, because I want to get index of first character after replaceFrom
-        String replacingPartStart = fileContent.substring(replacingPartIndexStart, fileContent.length());
-        Integer replacingPartIndexEnd = replacingPartStart.indexOf(finishingChar);
-        String replacingPart = replacingPartStart.substring(0, replacingPartIndexEnd);
-        replacingPart.replace(replacingPart, replaceTo);
+    public static String getFighterWPPart(String fileContent) {
+        // searching for proper routine
+        String routinePart = getReplacedFilePart(fileContent, "func void rtn_fight_", "};");
+        // searching for WP
+        String WPPart = getReplacedFilePart(routinePart, ",\"", "\");");
+
+        return WPPart;
     }
 
 }

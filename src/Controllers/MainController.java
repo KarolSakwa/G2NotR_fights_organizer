@@ -65,8 +65,8 @@ public class MainController {
         String fileContent = npcFile.getNPCFileContent();
         String fightRoutine = Helper.generateFightRoutine(fileContent, fighterNum);
         Boolean hasFightRoutine = fileContent.toLowerCase().contains("func void rtn_fight_");
-        /*
         if (hasFightRoutine) {
+            //Helper.replaceFilePart(fileContent, "func void rtn_fight_", fighterNum, "};");
             String fighterWPPart = Helper.getFighterWPPart(fileContent);
             npcFile.setNPCFileContent(fileContent.replace(fighterWPPart, fighterNum), false); //
         }
@@ -74,8 +74,7 @@ public class MainController {
             npcFile.setNPCFileContent(Helper.generateFightRoutine(fileContent, fighterNum), true);
         }
 
-         */
-        String fightFileContent = Helper.getFightFileContent(this);
-        System.out.println(fightFileContent);
+        //String fightFileContent = Helper.getFightFileContent(this);
+        //System.out.println(fightFileContent);
     }
 }
